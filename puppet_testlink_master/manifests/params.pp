@@ -1,23 +1,3 @@
-# === Class: testlink::params
-#
-#  The testlink configuration settings idiosyncratic to different operating
-#  systems.
-#
-# === Parameters
-#
-# None
-#
-# === Examples
-#
-# None
-#
-# === Authors
-#
-# Sahaja Koorapati
-#
-# === Copyright
-#
-# Copyright 2015 Sahaja Koorapati
 #
 class testlink::params {
 
