@@ -38,7 +38,7 @@
 # Copyright 2015 Sahaja Koorapati
 #
 
-class testlink (
+class testlink {
    $admin_email,
   $db_root_password,
   $doc_root       = $testlink::params::doc_root,
@@ -88,7 +88,7 @@ class testlink (
                          'thumb.php',
                          'thumb.php5',
                          'testlink.phtml']
-  ) inherits testlink::params {
+  
 
   #Class['testlink'] -> Testlink::Instance<| |>
 
@@ -101,72 +101,5 @@ class testlink (
   notice($tarball_name)
   notice($testlink_dir)
   notice($testlink_install_path)
-  
-  # Specify dependencies
-  Class['mysql::server'] -> Class['testlink']
-  #Class['mysql::config'] -> Class['testlink']
-  
-  class { 'apache': 
-    mpm_module => 'prefork',
-  }
-  class { 'apache::mod::php': }
-  
-  # Manages the mysql server package and service by default
-  class { 'mysql::server':
-    root_password => $db_root_password,
-  }
-
-  class { 'testlink::php': }
-
-  package { $testlink::params::packages:
-    ensure  => $package_ensure,
-  }
-  Package[$testlink::params::packages] ~> Service<| title == $testlink::params::apache |>
- 
-  
-  # Download and install testlink from a tarball
-  exec { "get-testlink":
-    cwd       => '/var/www',
-    command   => "/usr/bin/wget ${tarball_url}",
-    creates   => "/var/www/${tarball_name}",
-  }
-    
-  exec { "unpack-testlink":
-    cwd       => '/var/www',
-    command   => "/bin/tar -xvzf ${tarball_name} --strip-components=2",
-    #creates   => $testlink_install_path,
-    require => Exec['get-testlink'],
-  }
-
-  # Ensure gui/templates_c has right permissions
-  file { "${testlink_install_path}/gui/templates_c":
-    ensure => directory,
-    owner  => $testlink::params::apache_user,
-    group  => $testlink::params::apache_user,
-    mode   => '0777',
-    require => Exec['unpack-testlink'],
-  }
-
-  # Ensure logs has right permissions
-  file { "${testlink_install_path}/logs/":
-    ensure => directory,
-    owner  => $testlink::params::apache_user,
-    group  => $testlink::params::apache_user,
-    mode   => '0755',
-    require => Exec['unpack-testlink'],
-  }
-
-  # Ensure upload_area has right permissions
-  file { "${testlink_install_path}/upload_area/":
-    ensure => directory,
-    owner  => $testlink::params::apache_user,
-    group  => $testlink::params::apache_user,
-    mode   => '0755',
-    require => Exec['unpack-testlink'],
   }
   
-  class { 'memcached':
-    max_memory => $max_memory,
-    max_connections => '1024',
-  }
-} 
