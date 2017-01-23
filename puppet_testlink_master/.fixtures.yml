@@ -1,0 +1,8 @@
+fixtures:
+  symlinks:
+    testlink: "#{source_dir}/../testlink"
+    mysql: "#{source_dir}/../mysql"
+    stdlib: "#{source_dir}/../stdlib"
+    apache: "#{source_dir}/../apache"
+    concat: "#{source_dir}/../concat"
+    memcached: "#{source_dir}/../memcached"
