@@ -5,11 +5,11 @@ pipeline {
       steps {
         parallel(
           "BUILD": {
-            build 'JP_FnB_Build'
+            build 'test1'
             
           },
           "BUILD_JS": {
-            build 'JP_FnB_Build_JS_BIS'
+            build 'test2'
             
           }
         )
@@ -19,11 +19,11 @@ pipeline {
       steps {
         parallel(
           "DEPLOY": {
-            build 'JP_FnB_Deploy'
+            build 'test3'
             
           },
           "DEPLOY_JS": {
-            build 'JP_FnB_Deploy_JS_BIS'
+            build 'test4'
             
           }
         )
